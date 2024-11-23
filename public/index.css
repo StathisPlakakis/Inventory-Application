@@ -1,0 +1,46 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.video-container {
+  height: 90vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: rgb(6, 6, 6);
+  position: relative;
+}
+
+video, .content {
+  position: absolute;
+  top: 0;
+  left: 0; 
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.content {
+  background-color: rgba(29, 77, 144, 0.4);
+  z-index: 1;
+}
+
+.content h1 {
+  color: white;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translate(-50%, 0%);
+  text-align: center;
+  font-family: cursive;
+  opacity: 0;
+  animation-name: opacity;
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes opacity {
+  from {opacity: 0;}
+  to {opacity: 1;}
+}
+
