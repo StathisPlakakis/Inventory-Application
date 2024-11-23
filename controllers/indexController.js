@@ -1,5 +1,5 @@
 function indexControllerGet(req, res) {
-  res.send('Hi')
+  res.render('index');
 }
 
 module.exports = {
