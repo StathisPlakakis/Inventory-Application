@@ -19,7 +19,7 @@ const SQL = `
   category VARCHAR (30)
   );
 
-  CREATE TABLE IF NOT EXISTS brand (
+  CREATE TABLE IF NOT EXISTS brands (
   id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   brand VARCHAR (50)
   );
