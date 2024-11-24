@@ -32,3 +32,33 @@
   color: white;
   max-width: max-content;
 }
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: none;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+button.close, button[type=submit] {
+  padding: 1em;
+}
+
+button[type=submit] {
+  background-color: rgb(29, 77, 144);
+}
+
+.dialog form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+}
