@@ -1,0 +1,34 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  gap: 1em;
+}
+
+.tables {
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+}
+
+.table {
+  border: 1px solid rgb(29, 77, 144);
+  padding: 1em;
+  color: rgb(29, 77, 144);
+}
+
+.table.active {
+  border: 1px solid white;
+  color: white;
+  background-color: rgb(29, 77, 144);
+}
+
+.add_row {
+  font-size: 1.2em;
+  border: 1px solid rgb(29, 77, 144);
+  padding: 1em;
+  background-color: rgb(29, 77, 144);
+  color: white;
+  max-width: max-content;
+}

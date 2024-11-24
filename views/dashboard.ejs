@@ -4,18 +4,42 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
+  <link rel="stylesheet" href="dashboard.css">
   <title>Inventory App</title>
 </head>
 <body>
   <%- include('header') %>
-  <div class="tables">
-    <ul>
+  <div class="dashboard">
+    <ul class="tables">
       <% tables.map(table => { %>
         <li>
-          <%= table.table_name %>
+          <% if ( active_table === table.table_name) { %>
+            <div class="table <%=table.table_name%> active">
+              <h2><%= table.table_name %></h2>
+              <% if (table.table_name === 'categories') { %>
+                  <h3>Total categories: <%= table.total_items %></h3>
+              <% }else { %>
+                  <h3>Total brands: <%= table.total_items %></h3>
+              <% } %>
+            </div>
+          <% }else {%>
+            <div class="table <%=table.table_name%>">
+              <h2><%= table.table_name %></h2>
+              <% if (table.table_name === 'categories') { %>
+                  <h3>Total categories: <%= table.total_items %></h3>
+              <% }else { %>
+                  <h3>Total brands: <%= table.total_items %></h3>
+              <% } %>
+            </div>
+          <% } %>
         </li>
       <% }) %>
     </ul>
+
+    <button class="add_row">Add new Category</button>
+
   </div>
+  <!-- <%- include('footer') %> -->
+  <script src="dashboardFunctions.js"></script>
 </body>
 </html>

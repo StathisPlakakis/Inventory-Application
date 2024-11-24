@@ -7,7 +7,7 @@ const dashboardRouterGet = asyncHandler(async (req, res) => {
   if (!tables) {
     throw new CustomNotFoundError('Not tables found!');
   }
-  res.render('dashboard', {tables: tables});
+  res.render('dashboard', {tables: tables, active_table: 'categories'});
 })
 
 module.exports = {
