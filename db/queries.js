@@ -18,8 +18,13 @@ const addNewCategory = async (name) => {
   await pool.query('INSERT INTO categories (category) VALUES ($1)', [name]);
 }
 
+const addNewBrand = async (name) => {
+  await pool.query('INSERT INTO brands (brand) VALUES ($1)', [name]);
+}
+
 
 module.exports = {
   getAllTables,
-  addNewCategory
+  addNewCategory,
+  addNewBrand
 }

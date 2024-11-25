@@ -15,10 +15,17 @@ const dashboardRouterGet = asyncHandler(async (req, res) => {
 const createCategory = asyncHandler(async (req, res) => {
   const newCategory = req.body.category;
   await db.addNewCategory(newCategory);
-  res.redirect('/dashboard');
+  res.redirect('/dashboard?active=categories');
+})
+
+const createBrand = asyncHandler(async (req, res) => {
+  const newBrand = req.body.brand;
+  await db.addNewBrand(newBrand);
+  res.redirect('/dashboard?active=brands');
 })
 
 module.exports = {
   dashboardRouterGet,
-  createCategory
+  createCategory,
+  createBrand
 }
