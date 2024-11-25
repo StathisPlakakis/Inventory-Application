@@ -14,6 +14,12 @@ const getAllTables = async () => {
   return result;
 }
 
+const addNewCategory = async (name) => {
+  await pool.query('INSERT INTO categories (category) VALUES ($1)', [name]);
+}
+
+
 module.exports = {
-  getAllTables
+  getAllTables,
+  addNewCategory
 }

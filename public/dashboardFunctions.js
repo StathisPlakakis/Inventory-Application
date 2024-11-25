@@ -41,5 +41,9 @@ dialogs.forEach(dialog => {
       dialog.close();
     }
 })
-
 });
+
+// const createCategory = document.querySelector('.createCategory');
+// createCategory.addEventListener('click', (e) => {
+//   e.preventDefault();
+// })
