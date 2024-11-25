@@ -1,20 +1,17 @@
 const tables = document.querySelectorAll('.table');
 tables.forEach(table => {
-  table.addEventListener('click', () => {
-  tables.forEach(table => {
-    table.classList.remove('active');
-  })
-  table.classList.add('active');
-  if (table.classList.contains('categories')){
-    document.querySelector('.add_row').textContent = 'Add new Category';
-    document.querySelector('.add_row').classList.add('categories');
-    document.querySelector('.add_row').classList.remove('brands');
+  table.addEventListener('click', (e) => {
+    e.stopPropagation();
+    tables.forEach(table => {
+      table.classList.remove('active');
+    })
+    table.classList.add('active');
+    if (table.classList.contains('categories')){
+      window.location.href = '/dashboard?active=categories';
 
-  }else {
-    document.querySelector('.add_row').textContent = 'Add new Brand';
-    document.querySelector('.add_row').classList.remove('categories');
-    document.querySelector('.add_row').classList.add('brands');
-  }
+    }else {
+      window.location.href = '/dashboard?active=brands';
+    }
   })
 })
 
