@@ -32,6 +32,15 @@
       Add new <%= active_table === 'categories' ? 'Category' : 'Brand' %>
     </button>
 
+    <ul class="columns">
+      <% table_rows.map(table_row => { %>
+        <li class="column">
+          <p><%= table_row.category %></p>
+        </li>
+      <% }) %>
+    </ul>
+
+
     <dialog class="dialog dialogCategory">
       <form action="/dashboard/createCategory" method="post" name="dialogCategory">
         <h2>Create new Category</h2>

@@ -22,9 +22,26 @@ const addNewBrand = async (name) => {
   await pool.query('INSERT INTO brands (brand) VALUES ($1)', [name]);
 }
 
+const getAllTableRows = async (name) => {
+  let column;
+  if (name === 'categories') {
+    column = 'category';
+  }else if (name === 'brands') {
+    column = 'brand';
+  }else {
+    column = 'boat';
+  }
+  const {rows} = await pool.query(
+    `SELECT ${column} FROM ${name} ORDER BY ${column};`
+  );
+  return rows;
+}
+
+
 
 module.exports = {
   getAllTables,
   addNewCategory,
-  addNewBrand
+  addNewBrand,
+  getAllTableRows
 }

@@ -5,10 +5,8 @@ const CustomNotFoundError = require('../errors/customNotFoundError');
 const dashboardRouterGet = asyncHandler(async (req, res) => {
   const active_table = req.query.active;
   const tables = await db.getAllTables();
-  if (!tables) {
-    throw new CustomNotFoundError('Not tables found!');
-  }
-  res.render('dashboard', {tables, active_table});
+  const table_rows = await db.getAllTableRows(active_table);
+  res.render('dashboard', {tables, active_table, table_rows});
 })
 
 
