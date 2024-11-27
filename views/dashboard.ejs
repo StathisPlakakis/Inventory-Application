@@ -43,9 +43,19 @@
 
     <ul class="columns">
       <% table_rows.map(table_row => { %>
-        <li class="column">
-          <p><%= table_row.category %></p>
-        </li>
+          <% if (active_table === 'categories') { %>
+            <li class="column category">
+              <p><%= table_row.category %></p>
+            </li>
+          <% }else if (active_table === 'brands') { %>
+            <li class="column brand">
+              <p><%= table_row.brand %></p>
+            </li>
+          <% }else { %>
+            <li class="column boat">
+              <p><%= table_row.title %></p>
+            </li>
+          <% } %> 
       <% }) %>
     </ul>
 
