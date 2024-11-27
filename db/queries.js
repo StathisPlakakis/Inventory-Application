@@ -2,7 +2,7 @@ const pool = require('./pool');
 
 
 const getAllTables = async () => {
-  const {rows} = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name != 'boats';");
+  const {rows} = await pool.query("SELECT table_name FROM information_schema.tables WHERE table_schema = 'public';");
   const result = await Promise.all(
     rows.map(async (row) => {
     const table_name = row.table_name;
@@ -29,7 +29,7 @@ const getAllTableRows = async (name) => {
   }else if (name === 'brands') {
     column = 'brand';
   }else {
-    column = 'boat';
+    column = 'title';
   }
   const {rows} = await pool.query(
     `SELECT ${column} FROM ${name} ORDER BY ${column};`

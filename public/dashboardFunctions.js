@@ -1,7 +1,6 @@
 const tables = document.querySelectorAll('.table');
 tables.forEach(table => {
-  table.addEventListener('click', (e) => {
-    e.stopPropagation();
+  table.addEventListener('click', () => {
     tables.forEach(table => {
       table.classList.remove('active');
     })
@@ -9,8 +8,10 @@ tables.forEach(table => {
     if (table.classList.contains('categories')){
       window.location.href = '/dashboard?active=categories';
 
-    }else {
+    }else if (table.classList.contains('brands')){
       window.location.href = '/dashboard?active=brands';
+    }else {
+      window.location.href = '/dashboard?active=boats';
     }
   })
 })

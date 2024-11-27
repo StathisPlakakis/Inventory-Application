@@ -14,7 +14,7 @@
       <% tables.map(table => { %>
         <li>
           <% if ( active_table === table.table_name) { %>
-            <div class="table <%=active_table%> active">
+            <div class="table <%=table.table_name%> active">
               <h2><%= table.table_name %></h2>
               <h3>Total <%= table.table_name %>: <%= table.total_items %></h3>
             </div>
@@ -29,7 +29,16 @@
     </ul>
 
     <button class="add_row <%=active_table%>">
-      Add new <%= active_table === 'categories' ? 'Category' : 'Brand' %>
+      <% let content; %>
+
+      <% if(active_table === 'categories') {  %>
+        <% content = 'Category' %>
+      <% }else if (active_table === 'brands') { %>
+        <% content = 'Brand' %>
+      <% }else { %>
+        <% content = 'Boat' %>
+      <% } %>
+      Add new <%= content %>
     </button>
 
     <ul class="columns">
