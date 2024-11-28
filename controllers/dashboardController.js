@@ -6,7 +6,9 @@ const dashboardRouterGet = asyncHandler(async (req, res) => {
   const active_table = req.query.active;
   const tables = await db.getAllTables();
   const table_rows = await db.getAllTableRows(active_table);
-  res.render('dashboard', {tables, active_table, table_rows});
+  const table_rows_categories = await db.getAllTableRows('categories');
+  const table_rows_brands = await db.getAllTableRows('brands');
+  res.render('dashboard', {tables, active_table, table_rows, table_rows_categories, table_rows_brands});
 })
 
 

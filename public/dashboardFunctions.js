@@ -20,8 +20,16 @@ const addTable = document.querySelector('.add_row');
 const dialogs = document.querySelectorAll('dialog');
 const dialogCategory = document.querySelector('.dialogCategory');
 const dialogBrand = document.querySelector('.dialogBrand');
+const dialogBoat = document.querySelector('.dialogBoat');
+
 addTable.addEventListener('click', () => {
-  addTable.classList.contains('categories') ? dialogCategory.showModal() : dialogBrand.showModal()
+  if (addTable.classList.contains('categories')) {
+    dialogCategory.showModal();
+  }else if (addTable.classList.contains('brands')) {
+    dialogBrand.showModal();
+  }else {
+    dialogBoat.showModal();
+  }
 })
 
 const closeButtons = document.querySelectorAll('.close');
@@ -30,6 +38,7 @@ closeButtons.forEach(closeButton => {
     e.preventDefault();
     dialogCategory.close();
     dialogBrand.close();
+    dialogBoat.close();
   })
 })
 
