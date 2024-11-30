@@ -24,8 +24,23 @@ const createBrand = asyncHandler(async (req, res) => {
   res.redirect('/dashboard?active=brands');
 })
 
+const createBoat = asyncHandler(async (req, res) => {
+  const { category, brand, title, price, description } = req.body;
+  const files = req.files;
+  const category_id = await db.getCategoryId(category);
+  const brand_id = await db.getBrandId(brand);
+  const boatResult = await db.addNewBoat(category_id, brand_id, title, price, description);
+  const boatId = boatResult.rows[0].id;
+  for (const file of files) {
+    await db.addNewImages(boatId, file.buffer);
+  };
+  res.redirect('/dashboard?active=boats');
+
+})
+
 module.exports = {
   dashboardRouterGet,
   createCategory,
-  createBrand
+  createBrand,
+  createBoat
 }

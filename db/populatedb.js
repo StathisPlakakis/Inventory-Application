@@ -2,27 +2,32 @@ const {Client} = require('pg');
 require('dotenv').config();
 
 const SQL = `
-  CREATE TABLE IF NOT EXISTS boats (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  category_id INTEGER,
-  brand_id INTEGER,
-  title VARCHAR,
-  price INTEGER,
-  description VARCHAR,
-  images TEXT[],
-  date VARCHAR,
-  views INTEGER
-  );
+CREATE TABLE IF NOT EXISTS categories (
+  id SERIAL PRIMARY KEY,
+  category VARCHAR NOT NULL
+);
 
-  CREATE TABLE IF NOT EXISTS categories (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  category VARCHAR (30)
-  );
+CREATE TABLE IF NOT EXISTS brands (
+  id SERIAL PRIMARY KEY,
+  brand VARCHAR NOT NULL
+);
 
-  CREATE TABLE IF NOT EXISTS brands (
-  id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  brand VARCHAR (50)
-  );
+CREATE TABLE IF NOT EXISTS boats (
+  id SERIAL PRIMARY KEY,
+  category_id INTEGER REFERENCES categories(id) ON DELETE CASCADE,
+  brand_id INTEGER REFERENCES brands(id) ON DELETE CASCADE,
+  title VARCHAR NOT NULL,
+  price INTEGER NOT NULL,
+  description TEXT,
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  views INTEGER DEFAULT 0
+);
+
+CREATE TABLE IF NOT EXISTS boat_images (
+  id SERIAL PRIMARY KEY,
+  boat_id INTEGER REFERENCES boats(id) ON DELETE CASCADE,
+  image BYTEA NOT NULL
+);
 `;
 
 async function main() {
