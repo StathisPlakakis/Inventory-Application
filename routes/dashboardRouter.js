@@ -8,7 +8,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 dashboardRouter.get('/', dashboardRouterGet);
 dashboardRouter.post('/createCategory', createCategory);
 dashboardRouter.post('/createBrand', createBrand);
-dashboardRouter.post('/createBoat', upload.array('images'), createBoat);
+dashboardRouter.post('/createBoat', upload.single('image'), createBoat);
 
 
 

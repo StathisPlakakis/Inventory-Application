@@ -26,14 +26,12 @@ const createBrand = asyncHandler(async (req, res) => {
 
 const createBoat = asyncHandler(async (req, res) => {
   const { category, brand, title, price, description } = req.body;
-  const files = req.files;
+  const file = req.file;
   const category_id = await db.getCategoryId(category);
   const brand_id = await db.getBrandId(brand);
   const boatResult = await db.addNewBoat(category_id, brand_id, title, price, description);
   const boatId = boatResult.rows[0].id;
-  for (const file of files) {
-    await db.addNewImages(boatId, file.buffer);
-  };
+  await db.addNewImages(boatId, file.buffer);
   res.redirect('/dashboard?active=boats');
 
 })

@@ -61,7 +61,11 @@ const addNewImages = async (boat_id, file) => {
     );
   }
 
-
+  const getImageByBoatId = async (boat_id) => {
+    const result = await pool.query('SELECT image FROM boat_images WHERE boat_id = $1', [boat_id]);
+    return result.rows[0].image; // Returns an array of images
+  };
+  
 
 
 module.exports = {
@@ -72,5 +76,6 @@ module.exports = {
   addNewCategory,
   addNewBrand,
   addNewBoat,
-  addNewImages
+  addNewImages,
+  getImageByBoatId
 }
