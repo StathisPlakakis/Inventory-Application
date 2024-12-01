@@ -49,11 +49,34 @@ const createCategory = [validateCategory, asyncHandler(async (req, res) => {
   res.redirect('/dashboard?active=categories');
 })]
 
-const createBrand = asyncHandler(async (req, res) => {
+const validateBrand = [
+  body('brand').trim()
+    .isLength({max : 30}).withMessage('Brand\'s name should not exceed 30 characters ')
+]
+
+const createBrand = [validateBrand, asyncHandler(async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    const invalid_brand = req.body.brand;
+    const tables = await db.getAllTables();
+    const active_table = 'brands';
+    const table_rows = await db.getAllTableRows(active_table);
+    const table_rows_categories = await db.getAllTableRows('categories');
+    const table_rows_brands = await db.getAllTableRows('brands');
+    return res.render('dashboardError', {
+      tables,
+      active_table,
+      table_rows,
+      table_rows_categories,
+      table_rows_brands,
+      errors: errors.array(),
+      invalid_brand
+    });
+  }
   const newBrand = req.body.brand;
   await db.addNewBrand(newBrand);
   res.redirect('/dashboard?active=brands');
-})
+})]
 
 const createBoat = asyncHandler(async (req, res) => {
   const { category, brand, title, price, description } = req.body;

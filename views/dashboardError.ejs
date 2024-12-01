@@ -93,7 +93,26 @@
       </form>
     </dialog>
 
+    <% if (locals.errors && active_table === 'brands') { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const invalidBrand = "<%= invalid_brand %>";
+          document.querySelector('.dialogBrand').showModal();
+          document.querySelector('#brand').value = invalidBrand;
+        });
+      </script>
+    <% } %>
+
     <dialog class="dialog dialogBrand">
+
+      <% if (locals.errors) {%>
+        <ul class="errors">
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+      
       <form action="/dashboard/createBrand" method="post" name="dialogBrand">
         <h2>Create new Brand</h2>
         <div>
