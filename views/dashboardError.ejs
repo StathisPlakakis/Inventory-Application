@@ -112,7 +112,7 @@
           <% }); %>
         </ul>
       <% } %>
-      
+
       <form action="/dashboard/createBrand" method="post" name="dialogBrand">
         <h2>Create new Brand</h2>
         <div>
@@ -127,55 +127,82 @@
     </dialog>
 
 
-    <dialog class="dialog dialogBoat">
-      <form action="/dashboard/createBoat" method="post" name="dialogBoat" enctype="multipart/form-data">
-        <h2>Create new Boat listing</h2>
-
-        <div>
-          <label for="category">Category</label>
-          <select name="category" id="category">
-            <% table_rows_categories.map(category => { %>
-              <option value="<%= category.category %>"><%= category.category %></option>
-            <% }) %>
-          </select>
-        </div>
-
-        <div>
-          <label for="brand">Brand</label>
-          <select name="brand" id="brand">
-            <% table_rows_brands.map(brand => { %>
-              <option value="<%= brand.brand %>"><%= brand.brand %></option>
-            <% }) %>
-          </select>
-        </div>
-
-        <div>
-          <label for="image">Select Image:</label>
-          <input type="file" id="image" name="image" accept="image/*" >     
-        </div>        
-
-        <div>
-          <label for="title">Title</label>
-          <input type="text" name="title" id="title">
-        </div>
-
-        <div>
-          <label for="description">Description</label>
-          <textarea name="description" id="description"></textarea>
-        </div>
-
-        <div>
-          <label for="price">Price ($)</label>
-          <input type="number" name="price" id="price">
-        </div>
-
-        <div class="buttons">
-          <button class="close">Close</button>
-          <button type="submit">Create</button>
-        </div>
-
-      </form>
-    </dialog>
+    <% if (locals.errors && active_table === 'boats') { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const invalidCategory = "<%= invalid_category %>";
+          const invalidBrand = "<%= invalid_brand %>";
+          const invalidTitle = "<%= invalid_title %>";
+          const invalidDescription = "<%= invalid_description %>";
+          const invalidPrice = "<%= invalid_price %>";
+          document.querySelector('.dialogBoat').showModal();
+          document.querySelector('#category').value = invalidCategory;
+          document.querySelector('#brand').value = invalidBrand;
+          document.querySelector('#title').value = invalidTitle;
+          document.querySelector('#description').value = invalidDescription;
+          document.querySelector('#price').value = invalidPrice;
+        });
+      </script>
+      <% } %>
+      
+      <dialog class="dialog dialogBoat">
+      
+        <% if (locals.errors) { %>
+          <ul class="errors">
+            <% errors.forEach(function(error) { %>
+              <li><%= error.msg %></li>
+            <% }); %>
+          </ul>
+        <% } %>
+      
+        <form action="/dashboard/createBoat" method="post" name="dialogBoat" enctype="multipart/form-data">
+          <h2>Create new Boat listing</h2>
+      
+          <div>
+            <label for="category">Category</label>
+            <select name="category" id="category">
+              <% table_rows_categories.map(category => { %>
+                <option value="<%= category.category %>"><%= category.category %></option>
+              <% }) %>
+            </select>
+          </div>
+      
+          <div>
+            <label for="brand">Brand</label>
+            <select name="brand" id="brand">
+              <% table_rows_brands.map(brand => { %>
+                <option value="<%= brand.brand %>"><%= brand.brand %></option>
+              <% }) %>
+            </select>
+          </div>
+      
+          <div>
+            <label for="image">Select Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+          </div>        
+      
+          <div>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" required>
+          </div>
+      
+          <div>
+            <label for="description">Description</label>
+            <textarea name="description" id="description"></textarea>
+          </div>
+      
+          <div>
+            <label for="price">Price ($)</label>
+            <input type="number" name="price" id="price">
+          </div>
+      
+          <div class="buttons">
+            <button class="close">Close</button>
+            <button type="submit">Create</button>
+          </div>
+        </form>
+      </dialog>
+      
 
   </div>
   <%- include('footerError') %>
