@@ -45,7 +45,7 @@
 }
 
 .dialog::backdrop {
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(16, 7, 7, 0.5);
 }
 
 button.close, button[type=submit] {
@@ -89,4 +89,9 @@ button[type=submit] {
   background-image: url('./footer.png');
   height: 250px;
   width: 100%;
+}
+
+.errors {
+  width: auto;
+  display: block;
 }

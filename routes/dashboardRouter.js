@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const multer = require('multer');
 const dashboardRouter = Router();
-const {dashboardRouterGet, createCategory, createBrand, createBoat} = require('../controllers/dashboardController');
+const {dashboardRouterGet, createCategory, createBrand, createBoat } = require('../controllers/dashboardController');
 
 const upload = multer({ storage: multer.memoryStorage() });
 

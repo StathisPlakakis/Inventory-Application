@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" type="image/svg+xml" href="logo.svg" />
-  <link rel="stylesheet" href="dashboard.css">
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="stylesheet" href="/dashboard.css">
   <title>Inventory App</title>
 </head>
 <body>
-  <%- include('header') %>
+  <%- include('headerError') %>
   <div class="dashboard">
     <ul class="tables">
       <% tables.map(table => { %>
@@ -59,8 +59,27 @@
       <% }) %>
     </ul>
 
+    <% if (locals.errors && active_table === 'categories') { %>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const invalidCategory = "<%= invalid_category %>";
+          document.querySelector('.dialogCategory').showModal();
+          document.querySelector('#category').value = invalidCategory;
+        });
+      </script>
+    <% } %>
+    
 
     <dialog class="dialog dialogCategory">
+
+      <% if (locals.errors) {%>
+        <ul class="errors">
+          <% errors.forEach(function(error) { %>
+            <li><%= error.msg %></li>
+          <% }); %>
+        </ul>
+      <% } %>
+
       <form action="/dashboard/createCategory" method="post" name="dialogCategory">
         <h2>Create new Category</h2>
         <div>
@@ -140,7 +159,7 @@
     </dialog>
 
   </div>
-  <%- include('footer') %>
-  <script src="dashboardFunctions.js"></script>
+  <%- include('footerError') %>
+  <script src="/dashboardFunctions.js"></script>
 </body>
 </html>
