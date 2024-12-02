@@ -46,6 +46,10 @@
           <% if (active_table === 'categories') { %>
             <li class="column category">
               <p><%= table_row.category %></p>
+              <div class="queryButtons">
+                <button id="<%= table_row.id %>" class="edit">Edit</button>
+                <button class="delete">Delete</button>
+              </div>
             </li>
           <% }else if (active_table === 'brands') { %>
             <li class="column brand">
@@ -87,7 +91,6 @@
         </div>
       </form>
     </dialog>
-
 
     <dialog class="dialog dialogBoat">
       <form action="/dashboard/createBoat" method="post" name="dialogBoat" enctype="multipart/form-data">

@@ -49,3 +49,19 @@ dialogs.forEach(dialog => {
     }
 })
 });
+
+const editButtons = document.querySelectorAll('.edit');
+editButtons.forEach(editButton => {
+  const rowId = editButton.getAttribute('id');
+  editButton.addEventListener('click', async () => {
+    const params = new URLSearchParams(window.location.search);
+    const active = params.get('active');
+    const path = 'http://localhost:3000/api/';
+    if (active === 'categories') {
+      const response = await fetch(path + `category?id=${rowId}`);
+      const category = await response.json();
+      dialogCategory.showModal();
+      document.querySelector('#category').value = category;
+    }
+  })
+})

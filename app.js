@@ -1,6 +1,8 @@
 const express = require('express');
 const indexRouter = require('./routes/indexRouter');
 const dashboardRouter = require('./routes/dashboardRouter');
+const apiRouter = require('./routes/apiRouter');
+
 const path = require('path');
 const {CustomNotFoundError} = require('./errors/customNotFoundError')
 const app = express();
@@ -18,6 +20,7 @@ app.get('/images/:boat_id', async (req, res) => {
   res.render('images', { image: imageBase64 });
 });
 app.use('/dashboard', dashboardRouter);
+app.use('/api', apiRouter);
 app.use('/', indexRouter);
 app.use((req, res, next) => {
   next(new CustomNotFoundError('Page not found'));

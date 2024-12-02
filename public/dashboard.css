@@ -95,3 +95,14 @@ button[type=submit] {
   width: auto;
   display: block;
 }
+
+.queryButtons {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform:translateX(-50%) ;
+}
+
+.queryButtons button {
+  padding: 0.5em;
+}

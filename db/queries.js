@@ -24,7 +24,7 @@ const getAllTableRows = async (name) => {
     column = 'title';
   }
   const {rows} = await pool.query(
-    `SELECT ${column} FROM ${name} ORDER BY ${column};`
+    `SELECT id, ${column} FROM ${name} ORDER BY ${column};`
   );
   return rows;
 }
@@ -37,6 +37,16 @@ const getCategoryId = async (name) => {
 const getBrandId = async (name) => {
   const brand_id_result = await pool.query(`SELECT id FROM brands WHERE brand = '${name}';`);
   return brand_id_result.rows[0].id;
+}
+
+const getImageByBoatId = async (boat_id) => {
+  const result = await pool.query('SELECT image FROM boat_images WHERE boat_id = $1', [boat_id]);
+  return result.rows[0].image; 
+}
+
+const getCategoryByid = async (id) => {
+  const result = await pool.query('SELECT category FROM categories WHERE id = $1', [id]);
+  return result.rows[0].category;
 }
 
 const addNewCategory = async (name) => {
@@ -61,10 +71,7 @@ const addNewImages = async (boat_id, file) => {
     );
   }
 
-  const getImageByBoatId = async (boat_id) => {
-    const result = await pool.query('SELECT image FROM boat_images WHERE boat_id = $1', [boat_id]);
-    return result.rows[0].image; // Returns an array of images
-  };
+
   
 
 
@@ -73,9 +80,10 @@ module.exports = {
   getAllTableRows,
   getCategoryId,
   getBrandId,
+  getImageByBoatId,
+  getCategoryByid,
   addNewCategory,
   addNewBrand,
   addNewBoat,
   addNewImages,
-  getImageByBoatId
 }
