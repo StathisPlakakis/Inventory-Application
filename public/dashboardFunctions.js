@@ -21,6 +21,8 @@ const dialogs = document.querySelectorAll('dialog');
 const dialogCategory = document.querySelector('.dialogCategory');
 const dialogBrand = document.querySelector('.dialogBrand');
 const dialogBoat = document.querySelector('.dialogBoat');
+const dialogDelete = document.querySelector('.dialogDelete');
+
 
 addTable.addEventListener('click', () => {
   if (addTable.classList.contains('categories')) {
@@ -39,25 +41,8 @@ closeButtons.forEach(closeButton => {
     dialogCategory.close();
     dialogBrand.close();
     dialogBoat.close();
-    const params = new URLSearchParams(window.location.search);
-    const active = params.get('active');
-    if (active === 'categories') {
-      document.querySelector('#category').value = '';
-      document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
-      document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
-      const createButton = document.createElement('button');
-      createButton.textContent = 'Create';
-      createButton.type = 'submit';
-      createButton.classList.add('createCategory');
-      document.querySelector('.dialogCategory .buttons').appendChild(createButton);
-    }
-  })
-})
-
-dialogs.forEach(dialog => {
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) {
-      dialog.close();
+    dialogDelete.close();
+    if ( document.querySelector('button[type=submit]').classList.contains('updateCategory')) {
       const params = new URLSearchParams(window.location.search);
       const active = params.get('active');
       if (active === 'categories') {
@@ -69,6 +54,28 @@ dialogs.forEach(dialog => {
         createButton.type = 'submit';
         createButton.classList.add('createCategory');
         document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+      }
+    }
+  })
+})
+
+dialogs.forEach(dialog => {
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) {
+      dialog.close();
+      if ( document.querySelector('button[type=submit]').classList.contains('updateCategory')) {
+        const params = new URLSearchParams(window.location.search);
+        const active = params.get('active');
+        if (active === 'categories') {
+          document.querySelector('#category').value = '';
+          document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
+          document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
+          const createButton = document.createElement('button');
+          createButton.textContent = 'Create';
+          createButton.type = 'submit';
+          createButton.classList.add('createCategory');
+          document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+        }
       }
     }
 })
@@ -117,5 +124,19 @@ editButtons.forEach(editButton => {
     updateButton.addEventListener('click', handleClick);
     
     }
+  })
+})
+
+const deleteButtons = document.querySelectorAll('.delete');
+deleteButtons.forEach(deleteButton => {
+  deleteButton.addEventListener('click', () => {
+  const rowId = deleteButton.getAttribute('id');
+  const params = new URLSearchParams(window.location.search);
+  const active = params.get('active');
+  if (active === 'categories') {
+    document.querySelector('.dialogDelete h2').textContent = 'Are you sure you want to delete this category';
+    document.querySelector('.dialogDelete form').action = '/api/deleteCategory';
+    document.querySelector('.dialogDelete').showModal();
+  }
   })
 })
