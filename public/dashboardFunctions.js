@@ -39,6 +39,18 @@ closeButtons.forEach(closeButton => {
     dialogCategory.close();
     dialogBrand.close();
     dialogBoat.close();
+    const params = new URLSearchParams(window.location.search);
+    const active = params.get('active');
+    if (active === 'categories') {
+      document.querySelector('#category').value = '';
+      document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
+      document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
+      const createButton = document.createElement('button');
+      createButton.textContent = 'Create';
+      createButton.type = 'submit';
+      createButton.classList.add('createCategory');
+      document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+    }
   })
 })
 
@@ -46,6 +58,18 @@ dialogs.forEach(dialog => {
   dialog.addEventListener('click', (e) => {
     if (e.target === dialog) {
       dialog.close();
+      const params = new URLSearchParams(window.location.search);
+      const active = params.get('active');
+      if (active === 'categories') {
+        document.querySelector('#category').value = '';
+        document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
+        document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
+        const createButton = document.createElement('button');
+        createButton.textContent = 'Create';
+        createButton.type = 'submit';
+        createButton.classList.add('createCategory');
+        document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+      }
     }
 })
 });
@@ -60,8 +84,38 @@ editButtons.forEach(editButton => {
     if (active === 'categories') {
       const response = await fetch(path + `category?id=${rowId}`);
       const category = await response.json();
+
       dialogCategory.showModal();
       document.querySelector('#category').value = category;
+      document.querySelector('.dialogCategory h2').textContent = 'Edit Category';
+      const updateButton = document.createElement('button');
+      document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.createCategory'));
+      updateButton.textContent = 'Save';
+      updateButton.type = 'submit';
+      updateButton.classList.add('updateCategory');
+      document.querySelector('.dialogCategory .buttons').appendChild(updateButton);
+      const updateCategory = async (e) => {
+        e.preventDefault();
+        const response = await fetch(`${path}category?id=${rowId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ category: document.querySelector('#category').value }),
+        });
+      
+        const data = await response.json();
+        if (data.success) {
+          window.location.href = data.redirectUrl;
+        } else {
+          window.location.href = data.redirectUrl;
+        };
+      }
+      const handleClick = (e) => {
+        updateCategory(e);
+        updateButton.removeEventListener('click', handleClick);
+    };
+    
+    updateButton.addEventListener('click', handleClick);
+    
     }
   })
 })

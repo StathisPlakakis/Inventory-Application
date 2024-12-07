@@ -72,7 +72,11 @@ const addNewImages = async (boat_id, file) => {
   }
 
 
-  
+const updateCategory = async (category_id, newCategory) => {
+  await pool.query(
+    `UPDATE categories SET category = $1 WHERE id = $2`, [newCategory, category_id]
+  )
+}
 
 
 module.exports = {
@@ -86,4 +90,5 @@ module.exports = {
   addNewBrand,
   addNewBoat,
   addNewImages,
+  updateCategory
 }
