@@ -78,6 +78,12 @@ const updateCategory = async (category_id, newCategory) => {
   )
 }
 
+const deleteCategoryById = async (category_id) => {
+  await pool.query(
+    `DELETE FROM categories WHERE id = $1`, [category_id]
+  )
+}
+
 
 module.exports = {
   getAllTables,
@@ -90,5 +96,6 @@ module.exports = {
   addNewBrand,
   addNewBoat,
   addNewImages,
-  updateCategory
+  updateCategory,
+  deleteCategoryById
 }

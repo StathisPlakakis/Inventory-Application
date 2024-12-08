@@ -127,15 +127,16 @@ editButtons.forEach(editButton => {
   })
 })
 
-const deleteButtons = document.querySelectorAll('.delete');
+const deleteButtons = document.querySelectorAll('.columns .delete');
 deleteButtons.forEach(deleteButton => {
   deleteButton.addEventListener('click', () => {
   const rowId = deleteButton.getAttribute('id');
+  console.log(rowId)
   const params = new URLSearchParams(window.location.search);
   const active = params.get('active');
   if (active === 'categories') {
     document.querySelector('.dialogDelete h2').textContent = 'Are you sure you want to delete this category';
-    document.querySelector('.dialogDelete form').action = '/api/deleteCategory';
+    document.querySelector('.dialogDelete form').action = `/api/deleteCategory/${rowId}`;
     document.querySelector('.dialogDelete').showModal();
   }
   })

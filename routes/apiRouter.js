@@ -13,13 +13,18 @@ apiRouter.get('/category',async (req, res) => {
 apiRouter.patch('/category', express.json(), async (req, res) => {
   const categoryId = req.query.id;
   const newCategoryName = req.body.category;
-  console.log(categoryId, newCategoryName);
   try {
     await db.updateCategory(categoryId, newCategoryName);
     res.json({ success: true, redirectUrl: '/dashboard?active=categories' });
   } catch (error) {
     res.json({ success: false, redirectUrl: '/error' });
   }
+})
+
+apiRouter.post('/deleteCategory/:id', async (req, res) => {
+  const category_id = req.params.id;
+  await db.deleteCategoryById(category_id);
+  res.redirect('/dashboard?active=categories');
 })
 
 module.exports = apiRouter;
