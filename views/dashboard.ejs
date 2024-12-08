@@ -54,6 +54,10 @@
           <% }else if (active_table === 'brands') { %>
             <li class="column brand">
               <p><%= table_row.brand %></p>
+              <div class="queryButtons">
+                <button id="<%= table_row.id %>" class="edit">Edit</button>
+                <button id="<%= table_row.id %>" class="delete">Delete</button>
+              </div>
             </li>
           <% }else { %>
             <li class="column boat">
@@ -87,7 +91,7 @@
         </div>
         <div class="buttons">
           <button class="close">Close</button>
-          <button type="submit">Create</button>
+          <button type="submit" class="createBrand">Create</button>
         </div>
       </form>
     </dialog>

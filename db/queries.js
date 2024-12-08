@@ -49,6 +49,11 @@ const getCategoryByid = async (id) => {
   return result.rows[0].category;
 }
 
+const getBrandByid = async (id) => {
+  const result = await pool.query('SELECT brand FROM brands WHERE id = $1', [id]);
+  return result.rows[0].brand;
+}
+
 const addNewCategory = async (name) => {
   await pool.query('INSERT INTO categories (category) VALUES ($1)', [name]);
 }
@@ -78,9 +83,21 @@ const updateCategory = async (category_id, newCategory) => {
   )
 }
 
+const updateBrand = async (brand_id, newBrand) => {
+  await pool.query(
+    `UPDATE brands SET brand = $1 WHERE id = $2`, [newBrand, brand_id]
+  )
+}
+
 const deleteCategoryById = async (category_id) => {
   await pool.query(
     `DELETE FROM categories WHERE id = $1`, [category_id]
+  )
+}
+
+const deleteBrandById = async (brand_id) => {
+  await pool.query(
+    `DELETE FROM brands WHERE id = $1`, [brand_id]
   )
 }
 
@@ -92,10 +109,13 @@ module.exports = {
   getBrandId,
   getImageByBoatId,
   getCategoryByid,
+  getBrandByid,
   addNewCategory,
   addNewBrand,
   addNewBoat,
   addNewImages,
   updateCategory,
-  deleteCategoryById
+  updateBrand,
+  deleteCategoryById,
+  deleteBrandById,
 }

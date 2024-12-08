@@ -42,28 +42,8 @@ closeButtons.forEach(closeButton => {
     dialogBrand.close();
     dialogBoat.close();
     dialogDelete.close();
-    if ( document.querySelector('button[type=submit]').classList.contains('updateCategory')) {
-      const params = new URLSearchParams(window.location.search);
-      const active = params.get('active');
-      if (active === 'categories') {
-        document.querySelector('#category').value = '';
-        document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
-        document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
-        const createButton = document.createElement('button');
-        createButton.textContent = 'Create';
-        createButton.type = 'submit';
-        createButton.classList.add('createCategory');
-        document.querySelector('.dialogCategory .buttons').appendChild(createButton);
-      }
-    }
-  })
-})
-
-dialogs.forEach(dialog => {
-  dialog.addEventListener('click', (e) => {
-    if (e.target === dialog) {
-      dialog.close();
-      if ( document.querySelector('button[type=submit]').classList.contains('updateCategory')) {
+    document.querySelectorAll('button[type=submit]').forEach(button => {
+      if (['updateCategory', 'updateBrand'].some(cls => button.classList.contains(cls))) {
         const params = new URLSearchParams(window.location.search);
         const active = params.get('active');
         if (active === 'categories') {
@@ -75,8 +55,50 @@ dialogs.forEach(dialog => {
           createButton.type = 'submit';
           createButton.classList.add('createCategory');
           document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+        }else if (active === 'brands') {
+          document.querySelector('#brand').value = '';
+          document.querySelector('.dialogBrand h2').textContent = 'Create new Brand';
+          document.querySelector('.dialogBrand .buttons').removeChild(document.querySelector('.updateBrand'));
+          const createButton = document.createElement('button');
+          createButton.textContent = 'Create';
+          createButton.type = 'submit';
+          createButton.classList.add('createBrand');
+          document.querySelector('.dialogBrand .buttons').appendChild(createButton);
         }
       }
+    })
+  })
+})
+
+dialogs.forEach(dialog => {
+  dialog.addEventListener('click', (e) => {
+    if (e.target === dialog) {
+      dialog.close();
+      document.querySelectorAll('button[type=submit]').forEach(button => {
+        if (['updateCategory', 'updateBrand'].some(cls => button.classList.contains(cls))) {
+          const params = new URLSearchParams(window.location.search);
+          const active = params.get('active');
+          if (active === 'categories') {
+            document.querySelector('#category').value = '';
+            document.querySelector('.dialogCategory h2').textContent = 'Create new Category';
+            document.querySelector('.dialogCategory .buttons').removeChild(document.querySelector('.updateCategory'));
+            const createButton = document.createElement('button');
+            createButton.textContent = 'Create';
+            createButton.type = 'submit';
+            createButton.classList.add('createCategory');
+            document.querySelector('.dialogCategory .buttons').appendChild(createButton);
+          }else if (active === 'brands') {
+            document.querySelector('#brand').value = '';
+            document.querySelector('.dialogBrand h2').textContent = 'Create new Brand';
+            document.querySelector('.dialogBrand .buttons').removeChild(document.querySelector('.updateBrand'));
+            const createButton = document.createElement('button');
+            createButton.textContent = 'Create';
+            createButton.type = 'submit';
+            createButton.classList.add('createBrand');
+            document.querySelector('.dialogBrand .buttons').appendChild(createButton);
+          }
+        }
+      })
     }
 })
 });
@@ -123,6 +145,41 @@ editButtons.forEach(editButton => {
     
     updateButton.addEventListener('click', handleClick);
     
+    }else if (active === 'brands') {
+      const response = await fetch(path + `brand?id=${rowId}`);
+      const brand = await response.json();
+
+      dialogBrand.showModal();
+      document.querySelector('#brand').value = brand;
+      document.querySelector('.dialogBrand h2').textContent = 'Edit Brand';
+      const updateButton = document.createElement('button');
+      document.querySelector('.dialogBrand .buttons').removeChild(document.querySelector('.createBrand'));
+      updateButton.textContent = 'Save';
+      updateButton.type = 'submit';
+      updateButton.classList.add('updateBrand');
+      document.querySelector('.dialogBrand .buttons').appendChild(updateButton);
+      const updateBrand = async (e) => {
+        e.preventDefault();
+        const response = await fetch(`${path}brand?id=${rowId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ brand: document.querySelector('#brand').value }),
+        });
+      
+        const data = await response.json();
+        if (data.success) {
+          window.location.href = data.redirectUrl;
+        } else {
+          window.location.href = data.redirectUrl;
+        };
+      }
+      const handleClick = (e) => {
+        updateBrand(e);
+        updateButton.removeEventListener('click', handleClick);
+    };
+    
+    updateButton.addEventListener('click', handleClick);
+    
     }
   })
 })
@@ -137,6 +194,10 @@ deleteButtons.forEach(deleteButton => {
   if (active === 'categories') {
     document.querySelector('.dialogDelete h2').textContent = 'Are you sure you want to delete this category';
     document.querySelector('.dialogDelete form').action = `/api/deleteCategory/${rowId}`;
+    document.querySelector('.dialogDelete').showModal();
+  }else if (active === 'brands') {
+    document.querySelector('.dialogDelete h2').textContent = 'Are you sure you want to delete this brand';
+    document.querySelector('.dialogDelete form').action = `/api/deleteBrand/${rowId}`;
     document.querySelector('.dialogDelete').showModal();
   }
   })
