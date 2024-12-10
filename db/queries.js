@@ -54,6 +54,19 @@ const getBrandByid = async (id) => {
   return result.rows[0].brand;
 }
 
+const getBoatByid = async (id) => {
+  const result = await pool.query('SELECT category_id, brand_id, title, price, description FROM boats WHERE id = $1', [id]);
+  const category = result.rows[0].category_id ? await getCategoryByid(result.rows[0].category_id) : null;
+  const brand = result.rows[0].brand_id ? await getBrandByid(result.rows[0].brand_id) : null;
+  return {
+    category,
+    brand,
+    title: result.rows[0].title,
+    price: result.rows[0].price,
+    description: result.rows[0].description,
+  };
+}
+
 const addNewCategory = async (name) => {
   await pool.query('INSERT INTO categories (category) VALUES ($1)', [name]);
 }
@@ -89,6 +102,21 @@ const updateBrand = async (brand_id, newBrand) => {
   )
 }
 
+const updateBoat = async (boat_id, newBrand, newCategory, newTitle, newPrice, newDescription) => {
+  const brand_id = await getBrandId(newBrand);
+  const category_id = await getCategoryId(newCategory)
+  await pool.query(
+    `UPDATE boats SET brand_id = $1, category_id = $2, title = $3, price = $4, description = $5  WHERE id = $6`, [
+    brand_id,
+    category_id,
+    newTitle,
+    newPrice,
+    newDescription,
+    boat_id
+    ]
+  )
+}
+
 const deleteCategoryById = async (category_id) => {
   await pool.query(
     `DELETE FROM categories WHERE id = $1`, [category_id]
@@ -110,12 +138,14 @@ module.exports = {
   getImageByBoatId,
   getCategoryByid,
   getBrandByid,
+  getBoatByid,
   addNewCategory,
   addNewBrand,
   addNewBoat,
   addNewImages,
   updateCategory,
   updateBrand,
+  updateBoat,
   deleteCategoryById,
   deleteBrandById,
 }

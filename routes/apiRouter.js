@@ -16,6 +16,12 @@ apiRouter.get('/brand',async (req, res) => {
   res.json(brand);
 })
 
+apiRouter.get('/boat',async (req, res) => {
+  const boatId = req.query.id;
+  const boat = await db.getBoatByid(boatId);
+  res.json(boat);
+})
+
 apiRouter.patch('/category', express.json(), async (req, res) => {
   const categoryId = req.query.id;
   const newCategoryName = req.body.category;
@@ -33,6 +39,21 @@ apiRouter.patch('/brand', express.json(), async (req, res) => {
   try {
     await db.updateBrand(brandId, newBrandName);
     res.json({ success: true, redirectUrl: '/dashboard?active=brands' });
+  } catch (error) {
+    res.json({ success: false, redirectUrl: '/error' });
+  }
+})
+
+apiRouter.patch('/boat', express.json(), async (req, res) => {
+  const boat_id = req.query.id;
+  const newBrand = req.body.brand;
+  const newCategory = req.body.category;
+  const newTitle = req.body.title;
+  const newPrice = req.body.price;
+  const newDescription = req.body.description;
+  try {
+    await db.updateBoat(boat_id, newBrand, newCategory, newTitle, newPrice, newDescription);
+    res.json({ success: true, redirectUrl: '/dashboard?active=boats' });
   } catch (error) {
     res.json({ success: false, redirectUrl: '/error' });
   }
